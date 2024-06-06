@@ -2,6 +2,7 @@
 
 namespace Lenovo\Blog\Models;
 
+use Lenovo\Blog\Models\PostCategory;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -25,6 +26,11 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'idpost', 'idposts');
+    }
+
+    public function categorias()
+    {
+        return $this->belongsToMany(Category::class, 'posts_categorys', 'idpost', 'idcategory');
     }
 
     public function user()

@@ -50,6 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php echo $error; ?>
                 </div>
             <?php endif; ?>
+
+            <?php if (isset($_SESSION["inicia"])) : ?>
+                <div class="alert alert-danger">
+                    <?php echo "Accede a tu cuenta para comentar"; 
+                     unset($_SESSION["inicia"]);?>
+                </div>
+            <?php endif; ?>
             <form action="" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>

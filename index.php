@@ -6,11 +6,11 @@ require "conexion.php";
 use Lenovo\Blog\Models\Post;
 use Lenovo\Blog\Models\Category;
 
-if(isset($_SESSION["iduser"])){
+if (isset($_SESSION["iduser"])) {
     $iduser = $_SESSION["iduser"];
     $posts = Post::where('iduser', $iduser)->orderBy('create_date', 'desc')->get();
     $categorias = Category::where('iduser', $iduser)->distinct()->get(['name']);
-}else{
+} else {
     $posts = Post::orderBy('create_date', 'desc')->get();
     $categorias = Category::distinct()->get(['name']);
 }
@@ -83,8 +83,10 @@ if(isset($_SESSION["iduser"])){
             color: #fff;
             border-radius: 5px;
             padding: 10px;
-            margin-left: auto; /* Alinea a la derecha */
-            width: auto; /* Se ajusta al contenido */
+            margin-left: auto;
+            /* Alinea a la derecha */
+            width: auto;
+            /* Se ajusta al contenido */
         }
 
         .categorias ul {
@@ -96,7 +98,7 @@ if(isset($_SESSION["iduser"])){
         .categorias ul li {
             margin-bottom: 5px;
         }
-        
+
         .navbar {
             background-color: #007bff;
         }
@@ -117,18 +119,18 @@ if(isset($_SESSION["iduser"])){
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="contacto">Contacto</a>
                     </li>
-                    <?php if (isset($_SESSION["iduser"])): ?>
+                    <?php if (isset($_SESSION["iduser"])) : ?>
                         <li class="nav-item">
                             <a class="nav-link" href="newpost">Crear Post</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="logout">Cerrar Sesión</a>
                         </li>
-                    <?php else: ?>
+                    <?php else : ?>
                         <li class="nav-item">
                             <a class="nav-link" href="login">Acceder</a>
                         </li>
@@ -139,34 +141,48 @@ if(isset($_SESSION["iduser"])){
     </nav>
 
     <div class="container">
-        <h1 class="text-center mb-5">Blog</h1>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <!-- Aquí van los posts -->
-                <?php foreach ($posts as $post) : ?>
-                    <div class="post-container">
-                        <div class="post">
-                            <h2 class="post-title"><?php echo $post->tittle; ?></h2>
-                            <img class="post-image" src="src/imagenes_posts/<?php echo $post->imagen; ?>" alt="Imagen del post">
-                            <p class="post-body"><?php echo $post->body; ?></p>
-                            <p class="post-date">Publicado en <?php echo $post->create_date; ?></p>
-                        </div>
+    <h1 class="text-center mb-5">Blog</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Aquí van los posts -->
+            <?php foreach ($posts as $post) : ?>
+                <div class="post-container">
+                    <div class="post">
+                    <h2><a href="comentarios?idpost=<?php echo $post->idposts; ?>&iduser=<?php if(isset($_SESSION["iduser"])){ echo $iduser; }?>"><?php echo $post->tittle; ?></a></h2>
+                        <img class="post-image" src="src/imagenes_posts/<?php echo $post->imagen; ?>" alt="Imagen del post">
+                        <p class="post-body"><?php echo $post->body; ?></p>
+                        <p class="post-date">Publicado en <?php echo $post->create_date; ?></p>
+                        <p class="post-categories">
+                            Categorías: 
+                            <?php if (!is_null($post->categorias) or $post->categorias= "") : ?>
+                                <?php foreach ($post->categorias as $index => $category) : ?>
+                                    <?php echo $category->name; ?>
+                                    <?php if ($index < count($post->categorias) - 1) : ?>
+                                        ,
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <span>Sin categorías</span>
+                            <?php endif; ?>
+                        </p>
                     </div>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-4">
-                <!-- Aquí van las categorías -->
-                <div class="categorias">
-                    <h2>Categorías</h2>
-                    <ul>
-                        <?php foreach ($categorias as $categoria) : ?>
-                            <li><?php echo $categoria->name; ?></li>
-                        <?php endforeach; ?>
-                    </ul>
                 </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="col-md-4">
+            <!-- Aquí van las categorías -->
+            <div class="categorias">
+                <h2>Categorías</h2>
+                <ul>
+                    <?php foreach ($categorias as $categoria) : ?>
+                        <li><?php echo $categoria->name; ?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Bootstrap JS (opcional, si necesitas funcionalidad de Bootstrap) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

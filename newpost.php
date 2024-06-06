@@ -104,6 +104,10 @@ if (!isset($_SESSION["iduser"])) {
                             <label for="image" class="form-label">Imagen</label>
                             <input type="file" class="form-control" id="image" name="image" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="categories" class="form-label">Categorías (separadas por comas)</label>
+                            <input type="text" class="form-control" id="categories" name="categories">
+                        </div>
                         <button type="submit" class="btn btn-primary w-100">Guardar Post</button>
                     </form>
                 </div>

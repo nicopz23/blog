@@ -20,4 +20,9 @@ class Category extends Model
 
     // Columnas asignables en masa
     protected $fillable = ['name', 'iduser'];
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'posts_categorys', 'idcategory', 'idpost');
+    }
 }
