@@ -1,0 +1,20 @@
+{
+    "name": "lenovo/blog",
+    "description": "Blog multiusuario",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Lenovo\\Blog\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nicopz23",
+            "email": "samnic1524@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^10.0",
+        "illuminate/events": "^10.0"
+    }
+}
