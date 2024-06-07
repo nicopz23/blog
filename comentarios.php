@@ -1,7 +1,11 @@
 <?php
 session_start();
 include 'conexion.php';
+
 use Lenovo\Blog\Models\Comment;
+
+$idpost = $_GET['idpost'];
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (!isset($_SESSION["iduser"])) {
         $_SESSION["inicia"] = 0;
@@ -52,6 +56,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         .comentario-textarea {
             margin-top: 20px;
         }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar .navbar-brand,
+        .navbar .nav-link {
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -60,8 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./">Blog</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -70,16 +82,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <a class="nav-link" href="contacto">Contacto</a>
                     </li>
                     <?php if (isset($_SESSION["iduser"])) : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="newpost">Crear Post</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout">Cerrar Sesión</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="newpost">Crear Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="editpost?idpost=<?php echo $idpost;?>">Editar Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout">Cerrar Sesión</a>
+                        </li>
                     <?php else : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login">Acceder</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login">Acceder</a>
+                        </li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -92,7 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <!-- Mostrar comentarios -->
         <div class="comentarios-container">
             <?php
-            $idpost = $_GET['idpost'];
             $comentarios = Comment::where('idpost', $idpost)->get();
 
             // Mostrar los comentarios

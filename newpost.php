@@ -79,7 +79,7 @@ if (!isset($_SESSION["iduser"])) {
                         <a class="nav-link" href="#">Contacto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
+                        <a class="nav-link" href="logout">Cerrar Sesión</a>
                     </li>
                 </ul>
             </div>

@@ -1,11 +1,12 @@
 <?php
 session_start();
 require "conexion.php";
+
 use Lenovo\Blog\Models\Comment;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION["iduser"])) {
-        $_SESSION["inicia"];
+        $_SESSION["inicia"] = 0;
         header("Location: login");
         exit();
     }
@@ -27,4 +28,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: comentarios.php?idpost=$idpost&iduser=$iduser");
     exit();
 }
-
